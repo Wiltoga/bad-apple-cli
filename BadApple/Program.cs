@@ -9,8 +9,8 @@ namespace Wiltoag.BadApple
         private static void Main(string[] args)
         {
             var player = new Player();
-            var files = Directory.GetFiles("frames").ToList();
-            files.Sort();
+            var framesGenerator = new FramesGenerator();
+            var files = framesGenerator.GetFrames();
             player.Play(files, 30);
         }
     }
