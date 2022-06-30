@@ -45,5 +45,11 @@ namespace Wiltoag.BadApple
                 return list;
             }
         }
+
+        public void ResetCache()
+        {
+            Console.WriteLine("Deleting cache...");
+            Directory.Delete(DirectoryPath, true);
+        }
     }
 }
