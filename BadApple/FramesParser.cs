@@ -11,7 +11,7 @@ namespace Wiltoag.BadApple
 {
     internal class FramesParser
     {
-        private const byte Threshold = 50;
+        private const byte Threshold = 128;
 
         public char[,] RenderImage(Bitmap image, int width, int height)
         {
