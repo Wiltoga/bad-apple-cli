@@ -20,3 +20,5 @@ Just call `bad-apple` in the command line :
 ![image](https://user-images.githubusercontent.com/30344403/176788316-d68048bf-8541-469d-8151-d00b3311d6c1.png)
 
 ![image](https://user-images.githubusercontent.com/30344403/176788353-579db0ac-445b-4e73-a72d-8637c30a84fb.png)
+
+![gif](https://user-images.githubusercontent.com/30344403/177056279-6a94911c-19cd-4e17-a3ed-4c6412f07d7d.gif)
