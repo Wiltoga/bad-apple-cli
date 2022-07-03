@@ -21,18 +21,13 @@ namespace Wiltoag.BadApple
                             _ = int.TryParse(args[++i], out fps);
                             break;
 
-                        case "--reset-cache":
-                            framesGenerator.ResetCache();
-                            break;
-
                         default:
                             Console.WriteLine(@"
 Usage :
 bad-apple [options]
 
 Options :
---fps <frames per second>           Overrides the 30 fps limit
---reset-cache                       Deletes the cache and regenerate the frames.");
+--fps <frames per second>           Overrides the 30 fps limit");
                             return;
                     }
                 }

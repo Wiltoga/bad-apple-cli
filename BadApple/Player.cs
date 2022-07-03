@@ -17,7 +17,7 @@ namespace Wiltoag.BadApple
 
         private FramesParser Parser { get; }
 
-        public void Play(IEnumerable<string> frameFiles, int fps)
+        public void Play(IEnumerable<Bitmap> frames, int fps)
         {
             var frameChronometer = new Stopwatch();
             var fpsChronometer = new Stopwatch();
@@ -31,10 +31,9 @@ namespace Wiltoag.BadApple
 
             // size of the viewport, used to clear the buffer in case the console is resized
             var lastSize = (0, 0);
-            foreach (var file in frameFiles)
+            foreach (var frame in frames)
             {
                 frameChronometer.Restart();
-                using var frame = new Bitmap(file);
                 // we try to keep the ratio of the image
                 var height = Math.Min(Console.WindowHeight, Console.WindowWidth * frame.Height / 2 / frame.Width);
                 var width = height * 2 * frame.Width / frame.Height;
@@ -70,6 +69,7 @@ namespace Wiltoag.BadApple
                 Console.Write(builder);
                 ++fpsCounter;
                 while (frameChronometer.Elapsed < delta) ;
+                frame.Dispose();
             }
         }
     }

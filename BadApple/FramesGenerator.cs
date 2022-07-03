@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,46 +12,20 @@ namespace Wiltoag.BadApple
 {
     internal class FramesGenerator
     {
-        private static readonly string DirectoryPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "bad-apple-cache");
-        private static readonly string FrameFileFormat = "frame%05d.jpg";
-
-        public IEnumerable<string> GetFrames()
-
+        public IEnumerable<Bitmap> GetFrames()
         {
-            IEnumerable<string> files;
-            if (Directory.Exists(DirectoryPath) &&
-                (files = Directory.GetFiles(DirectoryPath)).Any())
+            using var archive = new ZipArchive(new MemoryStream(Properties.Resources.Frames), ZipArchiveMode.Read);
+            int frameNumber = 1;
+            while (true)
             {
-                var list = files.ToList();
-                list.Sort();
-                return list;
-            }
-            Console.WriteLine("Generating frames...");
-            Directory.CreateDirectory(DirectoryPath);
-            var output = Path.Combine(DirectoryPath, FrameFileFormat);
-            var input = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? ".", "Bad Apple.mp4");
-            var ffmpeg = new Process
-            {
-                StartInfo = new ProcessStartInfo("ffmpeg", @$"-i ""{input}"" ""{output}""")
+                var frame = archive.GetEntry($"frame{frameNumber:00000}.jpg");
+                ++frameNumber;
+                if (frame is not null)
                 {
-                    UseShellExecute = false,
-                    CreateNoWindow = true
+                    using var stream = frame.Open();
+                    yield return new Bitmap(stream);
                 }
-            };
-
-            ffmpeg.Start();
-            ffmpeg.WaitForExit();
-            {
-                var list = Directory.GetFiles(DirectoryPath).ToList();
-                list.Sort();
-                return list;
             }
-        }
-
-        public void ResetCache()
-        {
-            Console.WriteLine("Deleting cache...");
-            Directory.Delete(DirectoryPath, true);
         }
     }
 }
