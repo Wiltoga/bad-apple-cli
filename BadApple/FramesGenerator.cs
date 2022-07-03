@@ -25,6 +25,8 @@ namespace Wiltoag.BadApple
                     using var stream = frame.Open();
                     yield return new Bitmap(stream);
                 }
+                else
+                    break;
             }
         }
     }
